@@ -50,7 +50,6 @@ import com.dmdbrands.balancehealth.ui.theme.SupportingTextColor
 
 @Composable
 fun LoginScreen() {
-    val navController = LocalNavController.current
         Box(
             modifier = Modifier
                 .background(SetupBackgroundColor)
@@ -146,7 +145,7 @@ fun LoginScreen() {
                         Text(text = "LOGIN")
                     }
                     TextButton(
-                        onClick = { navController.navigate(AppRoute.FORGOTPWD) },
+                        onClick = {  },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
                             contentColor = ActiveComponentColor))
