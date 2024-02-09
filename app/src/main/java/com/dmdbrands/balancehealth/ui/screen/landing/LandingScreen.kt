@@ -33,9 +33,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dmdbrands.balancehealth.R
 import com.dmdbrands.balancehealth.config.AppLang
+import com.dmdbrands.balancehealth.ui.screen.login.TopBar
 import com.dmdbrands.balancehealth.ui.shared.component.HelpPopUp
+import com.dmdbrands.balancehealth.ui.shared.component.SharedViewModel
 import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
 import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
 import com.dmdbrands.balancehealth.ui.theme.SubHeadingColor
@@ -44,8 +47,9 @@ import com.dmdbrands.balancehealth.ui.theme.SupportingTextColor
 @Composable
 fun LandingScreen()
 {
-    var isHelpVisible by rememberSaveable{ mutableStateOf(false) }
+    var sharedViewModel: SharedViewModel = hiltViewModel()
     val localUriHandler = LocalUriHandler.current
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(SetupBackgroundColor)
@@ -96,12 +100,9 @@ fun LandingScreen()
                 BottomTextComponent(
                     text = AppLang.Landing.Footer.help,
                     color = ActiveComponentColor,
-                    modifier = Modifier.clickable(onClick = { isHelpVisible = !isHelpVisible })
+                    modifier = Modifier.clickable(onClick = { sharedViewModel.openHelp() } )
                 )
-                HelpPopUp(isHelpVisible)
-                {
-                    isHelpVisible=false
-                }
+                HelpPopUp()
 
             }
         }

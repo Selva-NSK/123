@@ -24,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,18 +38,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.dmdbrands.balancehealth.R
 import com.dmdbrands.balancehealth.config.AppLang
+import com.dmdbrands.balancehealth.ui.screen.login.LoginViewModel
 import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
 import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
 
 
 @Composable
-fun HelpPopUp(isHelpVisible: Boolean , onDismissRequest: () -> Unit) {
-//
+fun HelpPopUp() {
+    val viewModel: SharedViewModel = hiltViewModel()
+    val isHelpVisible by viewModel.isHelpVisible.collectAsState()
     if(isHelpVisible)
     Dialog(
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = { viewModel.closeHelp()},
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Card(
@@ -61,7 +66,7 @@ fun HelpPopUp(isHelpVisible: Boolean , onDismissRequest: () -> Unit) {
 
                 ) {
                 IconButton(
-                    onClick = { onDismissRequest() },
+                    onClick = { viewModel.closeHelp() },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.Transparent,
                         contentColor = ActiveComponentColor
@@ -144,5 +149,5 @@ fun ContactInfo(imageVector: ImageVector,text : String,onClick : () -> Unit) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AlertPreviw() {
-    HelpPopUp(false,{} )
+    HelpPopUp( )
 }
