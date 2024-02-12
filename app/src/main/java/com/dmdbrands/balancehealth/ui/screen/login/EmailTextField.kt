@@ -1,6 +1,5 @@
 package com.dmdbrands.balancehealth.ui.screen.login
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,60 +16,58 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dmdbrands.balancehealth.ui.theme.BalanceHealthTheme
 
 @Composable
 fun EmailTextField( viewModel: LoginViewModel) {
+    val emailState by viewModel.emailState.collectAsState()
     Column {
-        val email by viewModel.email.collectAsState()
-        val isEmailEmpty by viewModel.isEmailEmpty.collectAsState()
-        val isValidEmail by viewModel.isValidEmail.collectAsState()
-        val isEmailVisited by viewModel.isEmailVisited.collectAsState()
         TextField(
-            value = email,
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+
+                .onFocusChanged {
+                    if (it.isFocused) {
+                        viewModel.isEmailVisited()
+                    } else if (!it.isFocused && emailState.isEmailVisited) {
+                        viewModel.checkEmail()
+                    }
+
+                },
+            value = emailState.email,
+            onValueChange = {
+                    newvalue ->
+                viewModel.setEmail(newvalue) },
             label = {
                 Text(
                     text = "EMAIL")
             },
             supportingText = {
-                if (isEmailEmpty) {
-                    Text(
+                when(emailState.emailErrorCode) {
+                    (1) -> Text(
                         text = "Field Shouldn't be empty*",
                         color = Color.Red,
                     )
-
-                } else {
-                    if (!isValidEmail) {
-                        Text(
+                    (2) -> Text(
                             text = "Invalid Email",
                             color = Color.Red,
                         )
                     }
-                }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Done),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent
-            ),
-            onValueChange = {
-                newvalue ->
-                viewModel.setEmail(newvalue) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    if (it.isFocused) {
-                        viewModel.isEmailVisited()
-                    } else if (!it.isFocused && isEmailVisited) {
-                        viewModel.checkEmail()
-                    }
-
-                },
+            )
         )
     }
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewTextField() {
+    BalanceHealthTheme {
     EmailTextField( hiltViewModel())
+    }
 }

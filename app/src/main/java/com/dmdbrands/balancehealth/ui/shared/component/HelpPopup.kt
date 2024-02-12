@@ -16,7 +16,6 @@ import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -31,19 +30,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dmdbrands.balancehealth.R
 import com.dmdbrands.balancehealth.config.AppLang
-import com.dmdbrands.balancehealth.ui.screen.login.LoginViewModel
-import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
-import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
+import com.dmdbrands.balancehealth.ui.theme.BalanceHealthTheme
+import com.dmdbrands.balancehealth.ui.theme.PrimaryColor
 
 
 @Composable
@@ -56,8 +52,7 @@ fun HelpPopUp() {
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Card(
-            modifier = Modifier.padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = SetupBackgroundColor)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -69,7 +64,7 @@ fun HelpPopUp() {
                     onClick = { viewModel.closeHelp() },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.Transparent,
-                        contentColor = ActiveComponentColor
+                        contentColor = PrimaryColor
                     ),
 
                     ) {
@@ -95,8 +90,8 @@ fun HelpPopUp() {
                 Text(
                     text = AppLang.HelpPopUp.heading,
                     style = MaterialTheme.typography.titleLarge,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.W600
+                    textAlign = TextAlign.Center
+
 
 
                 )
@@ -130,7 +125,7 @@ fun ContactInfo(imageVector: ImageVector,text : String,onClick : () -> Unit) {
        Icon(
            imageVector = imageVector,
            contentDescription = AppLang.HelpPopUp.contactDescription,
-           tint = ActiveComponentColor,
+           tint = PrimaryColor,
            modifier = Modifier.size(ButtonDefaults.IconSize))
        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
        Text(
@@ -138,7 +133,8 @@ fun ContactInfo(imageVector: ImageVector,text : String,onClick : () -> Unit) {
            modifier = Modifier
                .padding(top = 1.dp)
                .clickable(onClick = onClick),
-           color = ActiveComponentColor,
+           color = PrimaryColor,
+
            style = MaterialTheme.typography.labelLarge,
        )
    }
@@ -149,5 +145,8 @@ fun ContactInfo(imageVector: ImageVector,text : String,onClick : () -> Unit) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AlertPreviw() {
+    BalanceHealthTheme {
     HelpPopUp( )
+
+    }
 }

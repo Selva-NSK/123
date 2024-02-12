@@ -10,14 +10,13 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val ActiveComponentColor = Color(0xFF00b3e2)
-val DisabledComponentColor = Color(0xff7fd9f0)
+val PrimaryColor = Color(0xFF00b3e2)
+val DisabledColor = Color(0xff7fd9f0)
 val HeadingColor = Color(0xff212121)
 val SupportingTextColor = Color(0xff424242)
 val SubHeadingColor = Color(0xff616161)
 val DividerColor = Color(0xffe0e0e0)
-val SetupBackgroundColor = Color(0xfff5f5f5)
-val MainBackgroundColor = Color(0xffffffff)
+val SurfaceColor = Color(0xfff5f5f5)
 
 
 

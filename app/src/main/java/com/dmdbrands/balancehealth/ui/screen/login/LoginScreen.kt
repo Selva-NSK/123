@@ -1,6 +1,5 @@
 package com.dmdbrands.balancehealth.ui.screen.login
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -35,25 +34,23 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dmdbrands.balancehealth.config.AppRoute
 import com.dmdbrands.balancehealth.model.LocalNavController
-import com.dmdbrands.balancehealth.ui.theme.DisabledComponentColor
-import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
-import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
+import com.dmdbrands.balancehealth.ui.theme.DisabledColor
+import com.dmdbrands.balancehealth.ui.theme.PrimaryColor
+import com.dmdbrands.balancehealth.ui.theme.SurfaceColor
 
 
 @Composable
 fun LoginScreen() {
     val viewModel: LoginViewModel = hiltViewModel()
-    val email by viewModel.email.collectAsState()
-    val pwd by viewModel.password.collectAsState()
-    val dummy by viewModel.dummy.collectAsState()
-    val buttonState by viewModel.buttonState.collectAsState()
+    val emailState by viewModel.emailState.collectAsState()
+    val passwordState by viewModel.passwordState.collectAsState()
     val focus = LocalFocusManager.current
     val navController = LocalNavController.current
     val view = LocalView.current
     Box(
             modifier = Modifier
                 .imePadding()
-                .background(SetupBackgroundColor)
+                .background(SurfaceColor)
                 .fillMaxSize()
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
@@ -87,28 +84,25 @@ fun LoginScreen() {
                             Button(
                                 onClick = {
                                     focus.clearFocus()
-                                    viewModel.checkcred(email,pwd)
                                           },
-                                enabled = buttonState,
+                                enabled = ( emailState.isButtonEnabled && passwordState.isButtonEnabled),
                                 modifier = Modifier
                                     .height(45.dp)
                                     .fillMaxWidth(),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = ActiveComponentColor,
-                                    disabledContainerColor = DisabledComponentColor,
+                                    containerColor = PrimaryColor,
+                                    disabledContainerColor = DisabledColor,
                                     contentColor = Color.White,
                                     disabledContentColor = Color.White
                                 )
                             ) {
                                 Text(text = "LOGIN")
                             }
-                            if(dummy)
-                                navController.popBackStack()
                             TextButton(
-                                onClick = { navController.navigate(AppRoute.FORGOTPWD) },
+                                onClick = { navController.navigate(AppRoute.FORGOTPWD)  },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Transpa  n                                                                                                                                                                             rent,
-                                    contentColor = ActiveComponentColor
+                                    contentColor = PrimaryColor,
+                                    containerColor = Color.Transparent
                                 )
                             )
                             {

@@ -16,7 +16,7 @@ import com.dmdbrands.balancehealth.R
 import com.dmdbrands.balancehealth.config.AppLang
 import com.dmdbrands.balancehealth.config.AppRoute
 import com.dmdbrands.balancehealth.model.LocalNavController
-import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
+import com.dmdbrands.balancehealth.ui.theme.PrimaryColor
 import com.dmdbrands.balancehealth.ui.theme.SupportingTextColor
 
 @Composable
@@ -35,7 +35,7 @@ fun MiddleSection() {
         color = SupportingTextColor
     )
     Spacer(modifier = Modifier.height(50.dp))
-    ButtonComponent(text = AppLang.Landing.loginButton, color = ActiveComponentColor ) {
+    ButtonComponent(text = AppLang.Landing.loginButton, color = PrimaryColor ) {
         navController.navigate(AppRoute.LOGIN)
     }
     Spacer(modifier = Modifier.height(16.dp))

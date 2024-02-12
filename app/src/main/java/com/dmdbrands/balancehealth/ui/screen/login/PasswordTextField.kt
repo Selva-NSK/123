@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,10 +31,7 @@ import com.dmdbrands.balancehealth.ui.theme.SupportingTextColor
 
 @Composable
 fun PasswordTextField(viewModel : LoginViewModel) {
-
-    val password by viewModel.password.collectAsState()
-    val isPasswordVisted by viewModel.isPasswordVisited.collectAsState()
-    val isPasswordEmpty by viewModel.isPasswordEmpty.collectAsState()
+    val passwordState by viewModel.passwordState.collectAsState()
     var passvisibility = rememberSaveable{ mutableStateOf(false) }
     val icon = if(passvisibility.value) Icons.Filled.Visibility else { Icons.Filled.VisibilityOff }
     TextField(
@@ -42,7 +40,7 @@ fun PasswordTextField(viewModel : LoginViewModel) {
             .onFocusChanged {
                 if (it.isFocused) {
                     viewModel.isPasswordVisited()
-                } else if (!it.isFocused && isPasswordVisted) {
+                } else if (!it.isFocused && passwordState.isPasswordVisited) {
                     viewModel.checkPassword()
                 }
 
@@ -57,15 +55,15 @@ fun PasswordTextField(viewModel : LoginViewModel) {
             unfocusedLabelColor = SupportingTextColor
         ),
         supportingText = {
-            if (isPasswordEmpty) {
-                Text(
+            when (passwordState.passwordErrorCode) {
+                (1) -> Text(
                     text = "Field Shouldn't be empty*",
                     color = Color.Red,
                 )
 
             }
         },
-        value = password,
+        value = passwordState.password,
         onValueChange = { newValue ->
             viewModel.setPassword(newValue)
         },
@@ -80,7 +78,7 @@ fun PasswordTextField(viewModel : LoginViewModel) {
             }
         },
         visualTransformation = if(passvisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password,imeAction = ImeAction.Done),
 
     )
 

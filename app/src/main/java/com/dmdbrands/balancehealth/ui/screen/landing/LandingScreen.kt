@@ -13,34 +13,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dmdbrands.balancehealth.R
 import com.dmdbrands.balancehealth.config.AppLang
-import com.dmdbrands.balancehealth.ui.screen.login.TopBar
 import com.dmdbrands.balancehealth.ui.shared.component.HelpPopUp
 import com.dmdbrands.balancehealth.ui.shared.component.SharedViewModel
-import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
-import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
+import com.dmdbrands.balancehealth.ui.theme.SurfaceColor
+import com.dmdbrands.balancehealth.ui.theme.PrimaryColor
+import com.dmdbrands.balancehealth.ui.theme.BalanceHealthTheme
 import com.dmdbrands.balancehealth.ui.theme.SubHeadingColor
 import com.dmdbrands.balancehealth.ui.theme.SupportingTextColor
 
@@ -52,7 +47,7 @@ fun LandingScreen()
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(SetupBackgroundColor)
+        .background(SurfaceColor)
     )
     {
         Column(
@@ -90,7 +85,7 @@ fun LandingScreen()
             {
                 BottomTextComponent(
                     text = AppLang.Landing.Footer.privacyPolicy,
-                    color = ActiveComponentColor,
+                    color = PrimaryColor,
                     modifier = Modifier.clickable {localUriHandler.openUri(AppLang.URL.privacyURL)}
                 )
                 BottomTextComponent(
@@ -99,8 +94,10 @@ fun LandingScreen()
                 )
                 BottomTextComponent(
                     text = AppLang.Landing.Footer.help,
-                    color = ActiveComponentColor,
-                    modifier = Modifier.clickable(onClick = { sharedViewModel.openHelp() } )
+                    color = PrimaryColor,
+                    modifier = Modifier.clickable(onClick = {
+                        sharedViewModel.openHelp()
+                    } )
                 )
                 HelpPopUp()
 
@@ -130,9 +127,13 @@ fun ButtonComponent(modifier: Modifier=Modifier, text : String, color : Color, o
 
 
 
-@Preview(showSystemUi = true, showBackground = true)
+//@Preview(showSystemUi = true, showBackground = true)
+@PreviewScreenSizes
 @Composable
 fun LandingScreenPreview() {
+    BalanceHealthTheme {
     LandingScreen()
+
+    }
 
 }

@@ -20,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,21 +29,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dmdbrands.balancehealth.ui.theme.DisabledComponentColor
-import com.dmdbrands.balancehealth.ui.theme.ActiveComponentColor
-import com.dmdbrands.balancehealth.ui.theme.SetupBackgroundColor
+import com.dmdbrands.balancehealth.ui.shared.component.SharedViewModel
+import com.dmdbrands.balancehealth.ui.theme.DisabledColor
+import com.dmdbrands.balancehealth.ui.theme.PrimaryColor
+import com.dmdbrands.balancehealth.ui.theme.SurfaceColor
 
 @Composable
 fun ForgotPassword() {
     val viewModel : LoginViewModel = hiltViewModel()
-    val email by viewModel.email.collectAsState()
-    val isValidEmail by viewModel.isValidEmail.collectAsState()
+    val emailState by viewModel.emailState.collectAsState()
+    val sharedViewModel : SharedViewModel = hiltViewModel()
+    val ishelpVisible by sharedViewModel.isHelpVisible.collectAsState()
     Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(SetupBackgroundColor),
+                .background(SurfaceColor),
         ) {
-            val isHelpVisible by remember { mutableStateOf(false) }
+            TopBar()
             ElevatedCard(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier = Modifier
@@ -67,16 +67,16 @@ fun ForgotPassword() {
                     Spacer(modifier = Modifier.height(20.dp))
                     EmailTextField(viewModel = viewModel)
                     Button(
-                        onClick = { Log.i("Selva","$email") },
+                        onClick = { Log.i("Selva","${emailState.email}") },
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
-                        enabled = isValidEmail==true,
+                        enabled = emailState.isButtonEnabled,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = ActiveComponentColor,
+                            containerColor = PrimaryColor,
                             contentColor = Color.White,
                             disabledContentColor = Color.White,
-                            disabledContainerColor = DisabledComponentColor
+                            disabledContainerColor = DisabledColor
                         )
                     ) {
                         Text(
